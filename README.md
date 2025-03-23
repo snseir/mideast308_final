@@ -1,2 +1,2 @@
-# mideast308_final
-A repository containing website files for MIDEAST 308 Final Project.
+# MIDEAST 308 Final Project
+This repository contains website files for MIDEAST 308 Final Project.
