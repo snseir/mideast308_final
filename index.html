@@ -17,6 +17,35 @@
             margin:auto;
             width:300px;
         }
+        body {
+            text-align: center;
+            font-family: Arial, sans-serif;
+        }
+        .game-container {
+            position: relative;
+            width: 600px;
+            height: 200px;
+            border: 2px solid black;
+            overflow: hidden;
+            background-color: lightgray;
+            margin: auto;
+        }
+        .dino {
+            width: 40px;
+            height: 40px;
+            background-color: green;
+            position: absolute;
+            bottom: 0;
+            left: 50px;
+        }
+        .obstacle {
+            width: 20px;
+            height: 40px;
+            background-color: red;
+            position: absolute;
+            bottom: 0;
+            right: 0;
+        }
     </style>
 </head>
 <body>
@@ -31,12 +60,67 @@
        </div>
       <script src='assets/js/script.js'></script>
 
-    <main>
+    <div class="game-container">
+        <div class="dino" id="dino"></div>
+        <div class="obstacle" id="obstacle"></div>
+    </div>
+</div>
+<script>
+    const dino = document.getElementById("dino");
+    const obstacle = document.getElementById("obstacle");
+    let isJumping = false;
+
+    document.addEventListener("keydown", function(event) {
+        if (event.code === "Space" && !isJumping) {
+            jump();
+        }
+    });
+
+    function jump() {
+        let position = 0;
+        isJumping = true;
+        let upInterval = setInterval(() => {
+            if (position >= 100) {
+                clearInterval(upInterval);
+                let downInterval = setInterval(() => {
+                    if (position <= 0) {
+                        clearInterval(downInterval);
+                        isJumping = false;
+                    }
+                    position -= 5;
+                    dino.style.bottom = position + "px";
+                }, 20);
+            }
+            position += 5;
+            dino.style.bottom = position + "px";
+        }, 20);
+    }
+
+    function moveObstacle() {
+        let obstaclePosition = 600;
+        let moveInterval = setInterval(() => {
+            if (obstaclePosition <= 0) {
+                obstaclePosition = 600;
+            }
+            obstaclePosition -= 5;
+            obstacle.style.left = obstaclePosition + "px";
+            
+            if (obstaclePosition > 50 && obstaclePosition < 90 && parseInt(dino.style.bottom) <= 40) {
+                alert("Game Over!");
+                clearInterval(moveInterval);
+            }
+        }, 20);
+    }
+    
+    moveObstacle();
+</script>
+
+ <!--<main>
         <hr>
         <p>
 
         </p>
-    </main>
+    </main>-->
     <footer>
         <p>
             Inspiration from <a href="https://ncase.me/polygons/">Parable of the Polygons</a>
